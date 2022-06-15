@@ -11,13 +11,17 @@ public enum BattleState
 }
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
+    
     private Transform Player;
+    Transform Enemy;
     [SerializeField]
     GameObject PlayerPrefab;
+
+
     void Start()
     {
-        Instantiate(PlayerPrefab,Vector3.zero,Quaternion.identity);     
+        Player=Instantiate(PlayerPrefab,Vector3.zero,Quaternion.identity).transform;
+        Enemy = Instantiate(PlayerPrefab, Player.position + new Vector3(2, 0, -1.5f), Quaternion.Euler(new Vector3(180, 0, 0))).transform;
     }
 
     // Update is called once per frame
