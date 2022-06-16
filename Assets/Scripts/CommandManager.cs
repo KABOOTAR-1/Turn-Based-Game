@@ -28,5 +28,17 @@ public class CommandManager : MonoBehaviour
         m_CommandsBuffer.Push(command);
     }
 
+    public void RemoveCommand() 
+    {
+        if(m_CommandsBuffer.Count > 0)
+        {
+            var command=m_CommandsBuffer.Pop();
+            command.Execute();
+        }
+        else
+        {
+            Debug.Log("No more commands to go back");
+        }
+    }
     
 }

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject PlayerPrefab;
     BattleState state=BattleState.IDLE;
+    bool PlayerTurn;
 
 
     void Start()
@@ -30,7 +31,11 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        
+        PlayerTurn = Input.GetKeyDown(KeyCode.N);
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StartCoroutine(MoveBack());
+        }
     }
 
     
@@ -41,18 +46,29 @@ public class GameManager : MonoBehaviour
 
         if(state==BattleState.PLAYER)
         {
-            CommandManager.ICommand command = new MoveUnit(Player);
-            command.Execute();
-            yield return new WaitForSeconds(2f);
+            CommandManager.ICommand command = new MoveUnit(Player); 
+            yield return new WaitUntil(() => PlayerTurn==true);
+            CommandManager.Instance.AddCommand(command);
+            PlayerTurn=false;
             state = BattleState.ENEMY;
         }
+      
         else if (state == BattleState.ENEMY)
         {
             CommandManager.ICommand command = new MoveUnit(Enemy);
-            command.Execute();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitUntil(() => PlayerTurn == true);
+            CommandManager.Instance.AddCommand(command);
+            PlayerTurn = false;
             state = BattleState.PLAYER;
         }
         StartCoroutine(PlayerMove());
+    }
+
+    IEnumerator MoveBack()
+    {
+        
+        CommandManager.Instance.RemoveCommand();
+        yield return new WaitForSeconds(3f);
+
     }
 }

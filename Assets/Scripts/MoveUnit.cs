@@ -11,13 +11,7 @@ public class MoveUnit : CommandManager.ICommand
     public MoveUnit() { }
     public MoveUnit(Transform perform)
     {
-
-
         this.thistransform = perform;
- 
-
-
-
     }
 
     public void Execute()
@@ -27,12 +21,6 @@ public class MoveUnit : CommandManager.ICommand
 
     public void Undo()
     {
-
         thistransform.Translate(-(this.thistransform.position - prev));
-
-
     }
-
-
-
 }
