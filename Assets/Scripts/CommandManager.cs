@@ -9,8 +9,6 @@ public class CommandManager : MonoBehaviour
     {
         void Execute();
 
-        void Undo();
-
     }
 
     public static CommandManager Instance { get; private set; }

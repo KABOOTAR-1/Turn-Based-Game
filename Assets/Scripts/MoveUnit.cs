@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class MoveUnit : CommandManager.ICommand
 {
-    private Transform thistransform;
-    BattleState tomove;
-    Vector3 prev;
-
+    private Tags.Currplayer thisPlayer;
+ 
     public MoveUnit() { }
-    public MoveUnit(Transform perform)
+    public MoveUnit(Tags.Currplayer perform)
     {
-        this.thistransform = perform;
+       thisPlayer = perform;       
     }
 
     public void Execute()
     {
-        Debug.Log("This is " + thistransform.name);
-    }
-
-    public void Undo()
-    {
-        thistransform.Translate(-(this.thistransform.position - prev));
+        if (Tags.attack == true)
+        {
+            thisPlayer.health -= 10;
+            Tags.attack = false;
+        }
+        if(Tags.heal == true)
+        {
+            thisPlayer.health += 5;
+            Tags.heal = false;
+        }
     }
 }
