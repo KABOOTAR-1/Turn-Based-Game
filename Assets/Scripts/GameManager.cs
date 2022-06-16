@@ -34,29 +34,38 @@ public class GameManager : MonoBehaviour
         StartCoroutine(MoveBack());
     }
     
+    void Perform(Tags.Currplayer One,Tags.Currplayer two)
+    {
+        CommandManager.ICommand command = new MoveUnit(One, two);
+        CommandManager.Instance.AddCommand(command);
+        PlayerTurn = false;
+    }
     IEnumerator PlayerMove()
     {
         if(Tags.state==BattleState.IDLE)
         Tags.state=BattleState.PLAYER;
 
+        if (Tags.state == BattleState.STOP)
+            yield return null;
+ 
         if(Tags.state==BattleState.PLAYER)
         {
-            CommandManager.ICommand command = new MoveUnit(Tags.Enemy,Tags.Player);
-            yield return new WaitUntil(() => PlayerTurn==true);           
-            CommandManager.Instance.AddCommand(command);
-            PlayerTurn=false;
+            yield return new WaitUntil(() => PlayerTurn == true);
+            Perform(Tags.Enemy, Tags.Player);
             Tags.state = BattleState.ENEMY;
         }
       
         else if (Tags.state == BattleState.ENEMY)
         {
-            CommandManager.ICommand command = new MoveUnit(Tags.Player,Tags.Enemy);
             yield return new WaitUntil(() => PlayerTurn == true);
-            CommandManager.Instance.AddCommand(command);
-            PlayerTurn = false;
+            Perform(Tags.Player, Tags.Enemy);
             Tags.state = BattleState.PLAYER;
         }
-        StartCoroutine(PlayerMove());
+
+        if (Tags.GameEnd)
+            Tags.state = BattleState.STOP;
+
+       
     }
 
     IEnumerator MoveBack()
@@ -69,12 +78,14 @@ public class GameManager : MonoBehaviour
     {
         Tags.attack = true;
         SetPlayerTurn();
+        StartCoroutine(PlayerMove());   
     }
 
     public void Heal()
     {
         Tags.heal = true;
         SetPlayerTurn();
+        StartCoroutine(PlayerMove());
     }
 
 }

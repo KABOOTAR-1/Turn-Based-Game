@@ -7,6 +7,7 @@ public class CommandManager : MonoBehaviour
     public interface ICommand
     {
         void Execute();
+        void Undo();
 
     }
 
@@ -31,7 +32,7 @@ public class CommandManager : MonoBehaviour
         if(m_CommandsBuffer.Count > 0)
         {
             var command=m_CommandsBuffer.Pop();
-            command.Execute();
+            command.Undo();
         }
         else
         {

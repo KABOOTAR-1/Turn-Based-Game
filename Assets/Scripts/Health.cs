@@ -19,10 +19,15 @@ public class Health : MonoBehaviour
         {
             currenturn.SetText("PLAYER 1 TURN");
         }
+        else if (Tags.state == BattleState.STOP)
+        {
+            currenturn.SetText("Game End");
+        }
         else
         {
             currenturn.SetText("PLAYER 2 TURN");
         }
+
     }
 
 }
