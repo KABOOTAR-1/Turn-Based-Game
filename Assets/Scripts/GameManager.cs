@@ -28,16 +28,15 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PlayerMove());
     }
 
-    
-    void Update()
+    public void SetPlayerTurn()
     {
-        PlayerTurn = Input.GetKeyDown(KeyCode.N);
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StartCoroutine(MoveBack());
-        }
+        PlayerTurn = true;
     }
 
+    public void DoUndo()
+    {
+        StartCoroutine(MoveBack());
+    }
     
     IEnumerator PlayerMove()
     {
@@ -65,10 +64,8 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator MoveBack()
-    {
-        
+    {       
         CommandManager.Instance.RemoveCommand();
         yield return new WaitForSeconds(3f);
-
     }
 }
