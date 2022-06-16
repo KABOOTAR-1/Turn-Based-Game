@@ -2,27 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BattleState
-{
-    IDLE,
-    PLAYER,
-    ENEMY,
-    STOP
-}
 
-public class Currplayer
-{
-    public Transform PlayerTransform;
-    public int health = 100;
-}
+
 public class GameManager : MonoBehaviour
 { 
    
     [SerializeField]
     GameObject PlayerPrefab;
-    BattleState state=BattleState.IDLE;
     bool PlayerTurn;
 
+    
 
     void Start()
     {
@@ -47,25 +36,25 @@ public class GameManager : MonoBehaviour
     
     IEnumerator PlayerMove()
     {
-        if(state==BattleState.IDLE)
-        state=BattleState.PLAYER;
+        if(Tags.state==BattleState.IDLE)
+        Tags.state=BattleState.PLAYER;
 
-        if(state==BattleState.PLAYER)
+        if(Tags.state==BattleState.PLAYER)
         {
-            CommandManager.ICommand command = new MoveUnit(Tags.Enemy); 
-            yield return new WaitUntil(() => PlayerTurn==true);
+            CommandManager.ICommand command = new MoveUnit(Tags.Enemy,Tags.Player);
+            yield return new WaitUntil(() => PlayerTurn==true);           
             CommandManager.Instance.AddCommand(command);
             PlayerTurn=false;
-            state = BattleState.ENEMY;
+            Tags.state = BattleState.ENEMY;
         }
       
-        else if (state == BattleState.ENEMY)
+        else if (Tags.state == BattleState.ENEMY)
         {
-            CommandManager.ICommand command = new MoveUnit(Tags.Player);
+            CommandManager.ICommand command = new MoveUnit(Tags.Player,Tags.Enemy);
             yield return new WaitUntil(() => PlayerTurn == true);
             CommandManager.Instance.AddCommand(command);
             PlayerTurn = false;
-            state = BattleState.PLAYER;
+            Tags.state = BattleState.PLAYER;
         }
         StartCoroutine(PlayerMove());
     }

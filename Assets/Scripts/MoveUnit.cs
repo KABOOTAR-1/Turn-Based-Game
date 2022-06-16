@@ -5,11 +5,13 @@ using UnityEngine;
 public class MoveUnit : CommandManager.ICommand
 {
     private Tags.Currplayer thisPlayer;
+    private Tags.Currplayer secondplayer;
  
-    public MoveUnit() { }
-    public MoveUnit(Tags.Currplayer perform)
+    
+    public MoveUnit(Tags.Currplayer currenplayer, Tags.Currplayer otherplayer)
     {
-       thisPlayer = perform;       
+        thisPlayer = currenplayer;
+        secondplayer = otherplayer;
     }
 
     public void Execute()
@@ -21,7 +23,7 @@ public class MoveUnit : CommandManager.ICommand
         }
         if(Tags.heal == true)
         {
-            thisPlayer.health += 5;
+            secondplayer.health += 5;
             Tags.heal = false;
         }
     }

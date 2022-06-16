@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class CommandManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     public interface ICommand
     {
         void Execute();
 
     }
 
-    public static CommandManager Instance { get; private set; }
+    public static CommandManager Instance { get; set; }
 
     private Stack<ICommand> m_CommandsBuffer = new Stack<ICommand>();
 
-    private void Awake()
+    private void Start()
     {
+        if(Instance == null)
         Instance = this;
     }
 
