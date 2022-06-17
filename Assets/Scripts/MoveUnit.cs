@@ -28,11 +28,14 @@ public class MoveUnit : CommandManager.ICommand
             Tags.attack = false;
 
         }
-        if(Tags.heal == true)
+        if(Tags.heal == true )
         {
-            PrevHeath=secondplayer.health;
-            secondplayer.health += 5;
-            PrevTransform = secondplayer;
+            if (secondplayer.health < 100)
+            {
+                PrevHeath = secondplayer.health;
+                secondplayer.health += 5;
+                PrevTransform = secondplayer;
+            }
             Tags.heal = false;
         }
 

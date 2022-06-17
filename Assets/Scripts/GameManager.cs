@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
 
     public void Heal()
     {
+        
         Tags.heal = true;
         SetPlayerTurn();
         StartCoroutine(PlayerMove());
