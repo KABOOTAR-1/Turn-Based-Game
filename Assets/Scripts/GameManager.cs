@@ -15,10 +15,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Transform PlayerOne = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity).transform;
+        Transform PlayerOne = Instantiate(PlayerPrefab, new Vector3(0,-0.74f,0.34f), Quaternion.Euler(0,90,0)).transform;
         Tags.Player.PlayerTransform = PlayerOne;
         Tags.Player.PlayerTransform.name = "Player";
-        PlayerOne = Instantiate(PlayerPrefab, Tags.Player.PlayerTransform.position + new Vector3(2, 0, -1.5f), Quaternion.Euler(new Vector3(180, 0, 0))).transform;
+        PlayerOne = Instantiate(PlayerPrefab, Tags.Player.PlayerTransform.position + new Vector3(1, 0, -1.5f), Quaternion.Euler(new Vector3(0, -90, 0))).transform;
         Tags.Enemy.PlayerTransform = PlayerOne;
         Tags.Enemy.PlayerTransform.name = "Enemy";
         StartCoroutine(PlayerMove());
